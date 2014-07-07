@@ -14,6 +14,7 @@
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
     "stylus": "0.42.3",
-    "socket.io": "~1.0.6"
+    "socket.io": "~1.0.6",
+    "aerogel": "git://github.com/tikot/aerogel.git#telemetry"
   }
 }
