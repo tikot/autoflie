@@ -3,11 +3,15 @@
 <head>
 	<title><%= title %></title>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/gauge.css' />
 </head>
 <body>
 	<h1><%= title %></h1>
 	<p>Welcome to <%= title %></p>
 
+	<script src="/components/d3/d3.min.js.js"></script>
+	<script src="/javascripts/gauge.js"></script>
+	<script src="/javascripts/main.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		var socket = io.connect('http://localhost:3000');
