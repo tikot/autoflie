@@ -1,3 +1,6 @@
+
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -14,6 +17,8 @@ app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'));
 var io = require('socket.io')(server);
+var cfio = io.of('/autoflie');
+var autoflie = require('./autoflie');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,9 +42,62 @@ app.use(function(req, res, next) {
 	next(err);
 });
 
-// scoket.io
-io.on('connection', function (socket) {
-	socket.emit('news', { hello: 'world' });
+var handleTelemetry = {};
+handleTelemetry.battery = function(data) {
+	if (cfio) { cfio.emit('battery', data);	}
+};
+handleTelemetry.motor = function(data) {
+	if (cfio){ cfio.emit('motor', data); }
+};
+handleTelemetry.stabilizer = function(data) {
+	if (cfio) { cfio.emit('stabilizer', data); }
+};
+handleTelemetry.acc = function(data) {
+	if (cfio) { cfio.emit('acc', data); }
+};
+handleTelemetry.gyro = function(data) {
+	if (cfio) { cfio.emit('gyro', data); }
+};
+
+cfio.on('connection', function (socket) {
+
+	//autoflie.init();
+	socket.on('command', function (data) {
+		switch(data.action) {
+			case 'start':
+				autoflie.takeOff();
+				console.log('start');
+				break;
+			case 'land':
+				autoflie.land();
+				break;
+			case 'bail':
+				autoflie.bail();
+				console.log('bail');
+				break;
+			case 'connect':
+				autoflie.connect(handleTelemetry);
+				console.log('connect');
+				break;
+			case 'disconnect':
+				console.log('disconnect');
+				break;
+			default:
+				// default code
+				console.log('default');
+		}
+	});
+
+	socket.on('thrust', function(data) {
+		autoflie.thrust(data);
+	});
+
+	socket.on('disconnect', function () {
+		console.log('Shutting down...');
+			//bail();
+	});
+
+	socket.emit('news', { connected: true });
 	socket.on('my other event', function (data) {
 		console.log(data);
 	});
@@ -68,6 +126,5 @@ app.use(function(err, req, res, next) {
 		error: {}
 	});
 });
-
 
 module.exports = app;

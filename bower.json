@@ -2,6 +2,8 @@
   "name": "autoflie",
   "version": "0.0.1",
   "dependencies": {
-    "d3": "https://github.com/mbostock/d3/releases/download/v3.4.11/d3.zip"
+    "d3": "https://github.com/mbostock/d3/releases/download/v3.4.11/d3.zip",
+    "paper-slider": "Polymer/paper-slider#~0.3.5",
+    "jquery": "~2.1.1"
   }
 }

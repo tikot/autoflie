@@ -76,15 +76,15 @@ text.gaugeLabel {
 	stroke-width: 0px;
 }
 circle.outerRing {
-	fill: #ccc;
+	fill: #fff;
 	stroke-width: 0.5px;
-	stroke: #000;
+	stroke: #C63310;
 	opacity: 1.0;
 }
 circle.innerCircle {
 	fill: #fff;
 	stroke-width: 2px;
-	stroke: #e0e0e0;
+	stroke: #fff;
 	opacity: 1.0;
 }
 text.currentValue {

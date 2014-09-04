@@ -2,23 +2,74 @@
 <html>
 <head>
 	<title><%= title %></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="components/platform/platform.js"></script>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 	<link rel='stylesheet' href='/stylesheets/gauge.css' />
+	<link rel="import" href="components/paper-slider/paper-slider.html">
 </head>
 <body>
-	<h1><%= title %></h1>
-	<p>Welcome to <%= title %></p>
+	<header class="row">
+		<div class="medium-6 columns"><h1><%= title %></h1></div>
+		<div class="medium-6 columns"></div>
+		<div id="status"></div>
+	</header>
+	<section class="row">
+		<div class="small-12 column">
+			<div class="signals">
+				<label for="batteryLevel" class="genericLabel">Battery Level</label>
+				<progress value="0" max="100" id="batteryLevel">No progress bar</progress>
+			</div>
+		</div>
+		<div class="small-12 column">
+			<div class="control">
+				<button class="start">Start</button>
+				<button class="land">Land</button>
+				<button class="althold">Hold Alt</button>
+				<button class="connect">Connect</button>
+				<button class="bail">Bail</button>
+			</div>
+		</div>
+	</section>
+	<section class="row">
+		<div class="small-12 medium-5 columns">
+			<div class="dash">
+				<div class="motors">
+					<div class="m">
+						<span id="motor3"></span>
+						<span id="motor4"></span>
+					</div>
+					<div class="m thrust">
+						<progress value="0" max="100" id="curent-thrust">No progress</progress>
+					</div>
+					<div class="m">
+						<span id="motor1"></span>
+						<span id="motor2"></span>
+					</div>
+				</div>
+				<paper-slider id="thrust" min="10001" max="60000" value="1500" editable=""></paper-slider>
+			</div>
+		</div>
+		<div class="small-12 medium-7 columns">
+			<div class="dash-blue">
+				<span id="acc"></span>
+			</div>
+		</div>
+	</section>
 
-	<script src="/components/d3/d3.min.js.js"></script>
-	<script src="/javascripts/gauge.js"></script>
-	<script src="/javascripts/main.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
+	<script src="/components/d3/d3.js"></script>
+	<script src="/javascripts/gauge.js"></script>
+
+	<script src="/components/jquery/dist/jquery.min.js"></script>
+
+	<script src="/javascripts/main.js"></script>
 	<script>
-		var socket = io.connect('http://localhost:3000');
-		socket.on('news', function (data) {
-			console.log(data);
-			socket.emit('my other event', { my: 'data' });
+		document.addEventListener('DOMContentLoaded', function(event) {
+			console.log('DOM fully loaded and parsed');
+			initialize();
 		});
 	</script>
+
 </body>
 </html>
